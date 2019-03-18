@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+</style>
+</head>
+
+<body> 
+
+<div id='light0' style='top:250px; left:340px'></div>
+<div id='light1' style='top:250px; left:650px'></div>
+<div id='light2' style='top:460px; left:240px'></div>
+<div id='light3' style='top:460px; left:750px'></div>
+<div id='light4' style='top:760px; left:150px'></div>
+<div id='light5' style='top:760px; left:850px'></div>
+
+<button id="switch" style="position:absolute;top:70px;left:700px">ON</button>
+
+<img src="https://i.imgur.com/P0VxMJF.jpg" style = width = "804" height = "1190">
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+class Light {
+	constructor (name,color){
+		this.name = '#' + name;
+		this.color = color;
+		$(this.name).css ("position", "absolute");
+		$(this.name).css ("border-radius", "100em");
+		$(this.name).css ("width", "50px");
+		$(this.name).css ("height", "50px");
+		$(this.name).css ('background-color', "hsl(0, 0%, 50%)");
+	}
+	toff() {
+		$(this.name).css ('background-color', "hsl(0, 0%, 50%)");
+	}
+	changeColor() {
+		let hue = Math.floor(Math.random() * 200);
+		return "hsl(" + hue + ", 43%, 51%)";
+	}
+	update(name) {
+		$(name).css ('background-color', this.changeColor);
+	}
+}
+var toggle = false;
+var shut,another;
+var arr = [];
+var sp = false;
+var f = false;
+init();
+function init() {
+	var l0 = new Light('light0' , "hsl(0, 0%, 50%)");
+	arr.push(l0);
+	var l1 = new Light('light1' , "hsl(0, 0%, 50%)");
+	arr.push(l1);
+	var l2 = new Light('light2' , "hsl(0, 0%, 50%)");
+	arr.push(l2);
+	var l3 = new Light('light3' , "hsl(0, 0%, 50%)");
+	arr.push(l3);
+	var l4 = new Light('light4' , "hsl(0, 0%, 50%)");
+	arr.push(l4);
+	var l5 = new Light('light5' , "hsl(0, 0%, 50%)");
+	arr.push(l5);
+}
+function ton() {
+	for(let i = 0; i < arr.length ; i++){
+		arr[i].update(arr[i].name);
+	}
+}
+
+$('#switch').click (function() {
+	if(toggle == true) {
+		$('#switch').text('ON');
+		clearInterval(shut);
+		for(let i = 0; i < arr.length ; i++){
+			arr[i].toff();
+		}
+	}
+	else {
+		$('#switch').text('OFF');
+		shut = setInterval (function() {ton();}, 1000);
+	}
+	toggle = !toggle;
+});
+</script>
+</body>
+</html>
